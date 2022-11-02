@@ -29,7 +29,6 @@ export const App = () => {
       })();
     } catch {
       setError(error => error)
-      console.log(error.message)
     }
     setIsLoading(true);
     
