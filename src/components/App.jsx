@@ -26,7 +26,7 @@ export const App = () => {
         console.log(nextImages)
       setImages(prevImages => [...prevImages, ...nextImages]);
       })();
-    } catch {error =>
+    } catch(error) {
         console.error(error);
     };
     
