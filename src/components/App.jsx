@@ -13,7 +13,6 @@ export const App = () => {
   const [images, setImages] = useState([]);   
   const [page, setPage] = useState(1);   
   const [isLoading, setIsLoading] = useState(false);   
-  const [error, setError] = useState(null); 
 
   useEffect(() => {
     if (queryImages === '') {
@@ -27,11 +26,11 @@ export const App = () => {
         console.log(nextImages)
       setImages(prevImages => [...prevImages, ...nextImages]);
       })();
-    } catch {
-      setError(error => error)
-    }
-    setIsLoading(true);
+    } catch {error =>
+        console.error(error);
+    };
     
+    setIsLoading(true);
     return () => {
       controller.abort();
     };
