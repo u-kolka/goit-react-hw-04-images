@@ -19,23 +19,28 @@ export const App = () => {
     if (queryImages === '') {
       return;
     }
-
+      
+    const controller = new AbortController();
     try {
       (async function fetchImages() {
-      const nextImages = await PixabayAPI.fetchImagesByQuery(queryImages, page);
+        const nextImages = await PixabayAPI.fetchImagesByQuery(queryImages, page); 
+        console.log(nextImages)
       setImages(prevImages => [...prevImages, ...nextImages]);
       })();
-    }
-    catch {
-      setError(error)
+    } catch {
+      setError(error => error)
       console.log(error.message)
     }
-
     setIsLoading(true);
-  }, [queryImages, page]);
+    
+    return () => {
+      controller.abort();
+    };
 
+  }, [queryImages, page]);
+ 
   useEffect(() => {
-    setTimeout(() => {
+    const timerId = setTimeout(() => {
       const galleryHeight = document.getElementById('galleryHeight').clientHeight
       window.scrollBy({
         top: galleryHeight,
@@ -43,6 +48,10 @@ export const App = () => {
         behavior: 'smooth'
       });
     }, 300);
+        
+    return () => {
+      clearTimeout(timerId);
+    };
   }, [page])
   
   const handleFormSubmit = (query) => {
