@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import {Loader} from './Loader/Loader';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { Loader } from './Loader/Loader';
 
 import PixabayAPI from "./PixabayAPI/PixabayAPI";
 import Searchbar from "./Searchbar/Searchbar";
@@ -20,13 +20,30 @@ export const App = () => {
       return;
     }
 
-    (async function fetchImages() {
+    try {
+      (async function fetchImages() {
       const nextImages = await PixabayAPI.fetchImagesByQuery(queryImages, page);
       setImages(prevImages => [...prevImages, ...nextImages]);
-    })();
+      })();
+    }
+    catch {
+      setError(error)
+      console.log(error.message)
+    }
 
     setIsLoading(true);
   }, [queryImages, page]);
+
+  useEffect(() => {
+    setTimeout(() => {
+      const galleryHeight = document.getElementById('galleryHeight').clientHeight
+      window.scrollBy({
+        top: galleryHeight,
+        left: 0,
+        behavior: 'smooth'
+      });
+    }, 300);
+  }, [page])
   
   const handleFormSubmit = (query) => {
     if (query === queryImages) {
