@@ -23,8 +23,7 @@ export const App = () => {
     try {
       (async function fetchImages() {
         const nextImages = await PixabayAPI.fetchImagesByQuery(queryImages, page); 
-        console.log(nextImages)
-      setImages(prevImages => [...prevImages, ...nextImages]);
+        setImages(prevImages => [...prevImages, ...nextImages]);
       })();
     } catch(error) {
         console.error(error);
