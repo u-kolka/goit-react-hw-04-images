@@ -21,11 +21,6 @@ async function fetchImagesByQuery(query='', page = 1) {
   } catch {
     return Promise.reject(new Error(`No pictures as requested: ${query}`));
   }
-  // finally {
-  //   return () => {
-  //     controller.abort();
-  //   };
-  // }
 };
 
 const PixabayAPI = {
